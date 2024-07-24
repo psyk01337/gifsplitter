@@ -1,42 +1,48 @@
 # GIF Grid Splitter
 
-A web application that processes animated GIFs by splitting them into a grid of smaller animated GIFs and displays them in a synchronized manner on an HTML page.
+The GIF Grid Splitter web application provides a simple and intuitive interface for splitting GIFs into smaller segments. Users can upload a GIF, specify the number of rows and columns for splitting, and view the resulting segments. The application also offers a toggle to control the gap between the segments.
 
 ## Features
 
-- Upload an animated GIF and split it into a specified grid of smaller GIFs.
-- Display the original GIF preview and the split GIFs on the same page.
-- Store and retrieve split GIFs using Deta Base HTTP API.
+- Upload GIF files for processing.
+- Split GIFs into specified rows and columns.
+- Preview the uploaded GIF before splitting.
+- Toggle gaps between the resulting GIF segments.
+- Download the source code from the provided link
 
 ## Technologies Used
 
 - FastAPI
-- PIL (Pillow)
 - HTMX
 - Bootstrap
-- Deta Base
+- Deta
 
-## Setup and Installation
+## Installation
 
-1. **Clone the repository**:
-   ```sh
-   git clone git@github.com:psyk01337/gifsplitter.git
-   cd gifsplitter
+To run this project locally, follow these steps:
 
-2. **Create a virtual environment**:
-  ```sh
-    python -m venv .venv
-    source .venv/bin/activate  # On Windows use `.venv\Scripts\activate`
+1. **Clone the repository:**
 
-3. **Install dependencies**:
-  ```sh
+    ```bash
+    git clone git@github.com:psyk01337/gifsplitter.git
+    cd gifsplitter
+    ```
+
+2. **Create and activate a virtual environment:**
+
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+    ```
+
+3. **Install the dependencies:**
+
+    ```bash
     pip install -r requirements.txt
+    ```
 
-4. **Set up environment variables**:
-Create a .env file in the root directory and add your Deta project key:
-  ```sh
-    DETA_PROJECT_KEY=your_project_key_here
+4. **Run the FastAPI server:**
 
-5. **Run the application**:
-  ```sh
+    ```bash
     uvicorn main:app --reload
+    ```
