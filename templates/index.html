@@ -39,13 +39,14 @@
                         <div id="resultdesc" class="grid-container" style="display: grid; grid-template-columns: repeat({{ columns }}, 1fr); grid-template-rows: repeat({{ rows }}, 1fr);">
                             {% for path in output_paths %}
                             <div class="grid-item">
-                                <img src="{{ path }}" alt="GIF segment" class="img-fluid border">
+                                <img src="data:image/gif;base64,{{ path }}" alt="GIF segment" class="img-fluid border">
                             </div>
                             {% endfor %}
                         </div>
                     {% endif %}
                 </div>
             </div>
+
         </div>
     </div>
     <script src="https://unpkg.com/htmx.org@1.5.0"></script>

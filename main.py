@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import io
 from PIL import Image, ImageSequence
-import os
+import base64
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -27,18 +27,23 @@ async def split_gif(request: Request, gif: UploadFile = Form(...), rows: int = F
         grid_height = height // rows
 
         output_paths = []
-        output_dir = "static/output"
-        os.makedirs(output_dir, exist_ok=True)
         for i in range(rows):
             for j in range(columns):
-                output_gif = f'{output_dir}/gif_{i}_{j}.gif'
                 new_frames = []
                 for frame in frames:
                     cropped_frame = frame.crop((j * grid_width, i * grid_height, (j + 1) * grid_width, (i + 1) * grid_height))
                     new_frames.append(cropped_frame)
-                new_frames[0].save(output_gif, save_all=True, append_images=new_frames[1:], loop=0)
-                output_paths.append(f"/{output_gif}")
+
+                # Save new frames to an in-memory byte stream
+                output_gif_io = io.BytesIO()
+                new_frames[0].save(output_gif_io, format='GIF', save_all=True, append_images=new_frames[1:], loop=0)
+                output_gif_io.seek(0)
+
+                # Encode the byte stream as base64
+                output_gif_base64 = base64.b64encode(output_gif_io.read()).decode('utf-8')
+                output_paths.append(output_gif_base64)
 
         return templates.TemplateResponse("index.html", {"request": request, "output_paths": output_paths, "rows": rows, "columns": columns})
     except Exception as e:
         return HTMLResponse(f"Error processing GIF: {e}", status_code=500)
+
