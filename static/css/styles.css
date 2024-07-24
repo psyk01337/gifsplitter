@@ -1,0 +1,30 @@
+.preview-container, .result-container {
+    padding: 20px;
+}
+.result-container {
+    border-left: 1px solid #ddd;
+}
+.gif-preview {
+    max-width: 100%;
+    border: 1px solid #ddd;
+    padding: 10px;
+    display: block;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), 1fr);
+    grid-template-rows: repeat(var(--rows), 1fr);
+    gap: 0; /* Remove gap between grid items */
+    border: none; /* Ensure no border */
+    padding: 0; /* Ensure no padding */
+}
+.grid-item {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+.grid-item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
