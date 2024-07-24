@@ -41,6 +41,9 @@
                 <div class="col-md-6 result-container">
                     <h2 class="h4 text-center">Result</h2>
                     <div id="result" class="mt-3">
+                        <div id="spinner" class="spinner-border d-none" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
                         {% if output_paths %}
                         <div id="resultdesc" class="grid-container" style="display: grid; grid-template-columns: repeat({{ columns }}, 1fr); grid-template-rows: repeat({{ rows }}, 1fr);">
                             {% for path in output_paths %}
@@ -85,20 +88,24 @@
         });
 
         htmx.on("htmx:beforeRequest", (evt) => {
-            const xhr = evt.detail.xhr;
-            const formData = new FormData(document.querySelector("#uploadForm"));
+            var xhr = evt.detail.xhr;
+            var formData = new FormData(document.querySelector("#uploadForm"));
             xhr.open("POST", "/split");
             xhr.send(formData);
+            document.getElementById('spinner').classList.remove('d-none'); // Show the spinner
+            document.getElementById('resultdesc').classList.add('d-none'); // Hide the result grid if visible
             evt.preventDefault();
         });
 
         htmx.on("htmx:beforeSwap", (evt) => {
             document.querySelector("#result").innerHTML = evt.detail.xhr.response;
+            document.getElementById('spinner').classList.add('d-none'); // Hide the spinner
+            document.getElementById('resultdesc').classList.remove('d-none'); // Show the result grid
             evt.preventDefault();
         });
 
-        // Toggle gap between grid items
-        document.getElementById('gapToggle').addEventListener('change', function () {
+         // Toggle gap between grid items
+         document.getElementById('gapToggle').addEventListener('change', function () {
             const gridContainer = document.getElementById('resultdesc');
             if (this.checked) {
                 gridContainer.style.gap = '10px'; // Adjust gap value as needed
